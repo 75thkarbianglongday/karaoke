@@ -81,8 +81,17 @@ th, td { padding: 7px 9px; text-align: left; border-bottom: 1px solid var(--bord
 th { background: #f1f5f9; }
 @media (max-width: 700px) {
   .form-grid { grid-template-columns: 1fr; }
-  .logo-text { font-size: 1.85rem; }
-  .container { padding-left: 28px; }
+  .logo-text { font-size: 1.6rem; }
+  .container { padding: 12px 12px 30px 28px; }
+  .section { padding: 16px; margin: 12px 0; }
+  .top-bar { padding: 8px 6px 4px; }
+  header.hero { padding: 4px 6px 10px; }
+  header.hero > div { flex-direction: column; gap: 8px; }
+  header.hero img { height: 70px !important; width: 70px !important; max-width: 70px !important; }
+  .tagline { font-size: 0.95rem; }
+  .actions { flex-direction: column; }
+  .actions .btn { width: 100%; text-align: center; }
+  h2 { font-size: 1.15rem; }
 }
 @media print {
   .stripe, .no-print, .top-bar, .actions, .admin-section { display: none !important; }
