@@ -132,6 +132,7 @@ th { background: #f1f5f9; }
       <li><strong>Rule:</strong> Sing one song only from the fixed song list (max 2 minutes 50 seconds)</li>
       <li><strong>Songs:</strong> Select any song from the list given in the form and click on the link to practice before performing.</li>
       <li><strong>Cash Prizes:</strong> Winner – ₹10,000 | 2nd – ₹8,000 | 3rd – ₹5,000 (All with certificates)</li>
+      <li><strong>For more information, contact:</strong> 8876230835, 8403831581</li>
     </ul>
     <p style="margin-top:10px; font-size:0.9rem; color:#57534e;"><strong>Fixed Songs:</strong> Choose from Karbi, Assamese, Hindi, English, or Trending categories listed in the form below. Click the practice link that appears after selecting a song.</p>
   </div>
@@ -262,7 +263,7 @@ th { background: #f1f5f9; }
     <div class="reg-id" id="modalRegId"></div>
     <p>Please save this ID.</p>
     <div class="actions" style="justify-content:center;">
-      <button class="btn" id="printBtn">Print Confirmation</button>
+      <button class="btn" id="printBtn">Download Registration Card</button>
       <button class="btn btn-secondary" id="registerAnother">Register Another</button>
     </div>
   </div>
@@ -406,12 +407,44 @@ document.getElementById("registerAnother").onclick = function() {
   document.getElementById("regForm").reset();
 };
 document.getElementById("printBtn").onclick = function() {
-  const content = document.getElementById("printArea").innerHTML;
-  const w = window.open("", "", "width=800,height=600");
-  w.document.write("<html><head><title>Confirmation</title><style>body{font-family:system-ui;padding:28px;line-height:1.5;}</style></head><body>" + content + "</body></html>");
-  w.document.close();
-  w.focus();
-  w.print();
+  const id = document.getElementById("modalRegId").textContent;
+  const list = loadRegistrations();
+  const entry = list.find(r => r.id === id) || {};
+  const content = `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Karaoke Registration - ${entry.id || id}</title>
+<style>
+  body { font-family: system-ui, sans-serif; padding: 20px; background: #fdf2f8; }
+  .card { max-width: 480px; margin: 20px auto; padding: 30px; border: 2px solid #db2777; border-radius: 12px; background: white; }
+  h2 { text-align: center; color: #db2777; margin-bottom: 4px; }
+  h3, h4 { text-align: center; margin-top: 0; }
+  h4 { color: #9d174d; }
+  hr { border: none; border-top: 1px solid #fce7f3; margin: 12px 0; }
+  p { margin: 6px 0; }
+  .footer { font-size: 0.85rem; color: #64748b; text-align: center; margin-top: 16px; }
+</style></head><body>
+<div class="card">
+  <h2>75th Karbi Anglong Day 2026</h2>
+  <h3>Karaoke Competition</h3>
+  <h4>Registration Card</h4>
+  <hr>
+  <p><strong>Registration ID:</strong> ${entry.id || id}</p>
+  <p><strong>Name:</strong> ${entry.name || ""}</p>
+  <p><strong>Phone:</strong> ${entry.phone || ""}</p>
+  <p><strong>Gender:</strong> ${entry.gender || ""}</p>
+  <p><strong>Age:</strong> ${entry.age || ""}</p>
+  <p><strong>Song:</strong> ${entry.song || ""}</p>
+  <p><strong>Address:</strong> ${entry.address || "—"}</p>
+  <hr>
+  <p class="footer">Organised by Sports & Youth Welfare Department, KAAC</p>
+  <p class="footer">Contact: 8876230835, 8403831581</p>
+</div>
+</body></html>`;
+  const blob = new Blob([content], { type: "text/html" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `Karaoke_Registration_${entry.id || id}.html`;
+  a.click();
+  URL.revokeObjectURL(a.href);
 };
 
 document.getElementById("adminBtn").onclick = function() {
